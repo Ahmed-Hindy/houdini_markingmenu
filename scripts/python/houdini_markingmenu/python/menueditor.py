@@ -2,11 +2,9 @@ import sys
 
 import os
 
-import json
-
 import hou
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtTest
+from houdini_markingmenu.qt import QtWidgets, QtGui, QtCore, QtTest
 
 from .editor_widgets import managecollectionstoolbar
 
@@ -38,11 +36,7 @@ class MarkingMenuEditor(QtWidgets.QWidget):
         self.setStyleSheet('background-color: rgb(58,58,58);')
         self.setFixedSize(1150 * self.dpifactor, 850 * self.dpifactor)
 
-        self._rootpath = os.path.abspath(os.path.join(
-            hou.getenv('HOUDINI_MARKINGMENU'),
-            'python3.7libs',
-            'houdini_markingmenu')
-            )
+        self._rootpath = utils.packageRoot()
 
         self._contexts = sorted([
             'SOP', 'OBJ', 'DOP', 'VOP', 'ROP',
@@ -359,14 +353,7 @@ class MarkingMenuEditor(QtWidgets.QWidget):
             self.__updateLegendHistory()
             # self._prevCollection = self._menuToolbar.collectionComboBox.currentText()
 
-            namestr = diag[1]
-            namestr = namestr.strip(' ').replace(' ', '_')
-            # strip context and extension from name if they are there
-            if namestr.startswith(self._currentContext + '_'):
-                namestr = namestr[len(self._currentContext) + 1:len(namestr)]
-            if namestr.endswith('.json'):
-                namestr = namestr[0:len(namestr)-len('.json')]
-            namestr = '_'.join([self._currentContext, namestr]) + '.json'
+            namestr = utils.normalizeCollectionFilename(self._currentContext, diag[1])
 
             if namestr in self._collections:
                 hou.ui.displayMessage(
@@ -448,14 +435,8 @@ class MarkingMenuEditor(QtWidgets.QWidget):
                 )
 
             if diag[1] and not diag[0]:
-                namestr = diag[1]
-                namestr = namestr.strip(' ').replace(' ', '_')
-                # strip context and extension from name if they are there
-                if namestr.startswith(self._currentContext + '_'):
-                    namestr = namestr[len(self._currentContext) + 1:len(namestr)]
-                if namestr.endswith('.json'):
-                    namestr = namestr[0:len(namestr)-len('.json')]
-                namestr = '_'.join([self._currentContext, namestr]) + '.json'
+                namestr = utils.normalizeCollectionFilename(
+                    self._currentContext, diag[1])
 
                 # prevent writing over base collection of current context
                 if namestr == ('{}_baseCollection.json'.format(self._currentContext)):
@@ -479,12 +460,8 @@ class MarkingMenuEditor(QtWidgets.QWidget):
                     if namestr not in self._collections or overwrite:
                         oldpath = os.path.join(self._collectionsDir, col)
                         newpath = os.path.join(self._collectionsDir, namestr)
-                        if os.path.isfile(oldpath) and overwrite:
-                            # remove newpath to make space for oldpath to be renamed
-                            os.remove(newpath)
-                            os.rename(oldpath, newpath)
-                        else:
-                            os.rename(oldpath, newpath)
+                        if os.path.isfile(oldpath):
+                            os.replace(oldpath, newpath)
 
                         self.__alertText('{} renamed to {}'.format(
                             self._menuToolbar.collectionComboBox.currentText(),
@@ -506,8 +483,7 @@ class MarkingMenuEditor(QtWidgets.QWidget):
             self._menuPrefs[self._currentContext]['Shift'] = self._modifierComboBoxes.shift.comboBox.currentText() + '.json'
             self._menuPrefs[self._currentContext]['Control'] = self._modifierComboBoxes.ctrl.comboBox.currentText() + '.json'
 
-            with open(self._prefs_path, 'w') as f:
-                json.dump(self._menuPrefs, f, indent=4, sort_keys=True)
+            utils.saveMenuPreferences(self._prefs_path, self._menuPrefs)
 
     def __updateTree(self, parentItem):
         self._referenceView.tree.clear()

@@ -1,6 +1,6 @@
 import hou
 
-from PySide2 import QtWidgets, QtCore
+from houdini_markingmenu.qt import QtWidgets, QtCore
 
 
 class ManageCollectionsToolbar(QtWidgets.QWidget):

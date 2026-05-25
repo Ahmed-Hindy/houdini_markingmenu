@@ -3,9 +3,12 @@
     "env": [
         {
             "HOUDINI_MARKINGMENU": "path/to/root"
+        },
+        {
+            "var": "PYTHONPATH",
+            "value": "$HOUDINI_MARKINGMENU/scripts/python",
+            "method": "prepend"
         }
     ],
-    "path": [
-        "$HOUDINI_MARKINGMENU"
-    ]
+    "hpath": "$HOUDINI_MARKINGMENU"
 }

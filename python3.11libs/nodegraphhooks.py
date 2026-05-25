@@ -1,4 +1,4 @@
-"""Houdini network editor hook shim for Python 3.7 builds."""
+"""Houdini network editor hook shim for Python 3.11 builds."""
 
 from houdini_markingmenu.nodegraphhooks import buildHandler, createEventHandler
 

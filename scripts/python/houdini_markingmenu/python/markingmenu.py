@@ -8,7 +8,7 @@ import sys
 
 import hou
 
-from PySide2 import QtWidgets, QtGui, QtCore, QtTest
+from houdini_markingmenu.qt import QtWidgets, QtGui, QtCore, QtTest
 
 from . import utils
 
@@ -59,11 +59,7 @@ class NEMarkingMenu(QtWidgets.QWidget):
     def __init__(self, editor):
         super(NEMarkingMenu, self).__init__()
         
-        self.rootpath = os.path.abspath(os.path.join(
-            hou.getenv('HOUDINI_MARKINGMENU'),
-            'python3.7libs',
-            'houdini_markingmenu')
-            )
+        self.rootpath = utils.packageRoot()
         
         # add python folder to path for nodegraphactivewire context
         sys.path.insert(0, os.path.join(self.rootpath, 'python'))
