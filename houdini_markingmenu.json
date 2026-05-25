@@ -1,14 +1,14 @@
 {
-    "enable" : true,
+    "enable": true,
     "env": [
         {
             "HOUDINI_MARKINGMENU": "path/to/root"
         },
         {
-            "var": "PYTHONPATH",
-            "value": "$HOUDINI_MARKINGMENU/scripts/python",
-            "method": "prepend"
+            "HOUDINI_PATH": {
+                "value": "$HOUDINI_MARKINGMENU",
+                "method": "append"
+            }
         }
-    ],
-    "hpath": "$HOUDINI_MARKINGMENU"
+    ]
 }
