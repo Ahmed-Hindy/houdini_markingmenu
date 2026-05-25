@@ -1,6 +1,6 @@
 import hou
 
-from PySide2 import QtWidgets, QtGui
+from houdini_markingmenu.qt import QtWidgets, QtGui
 
 
 class ReferenceButtons(QtWidgets.QWidget):

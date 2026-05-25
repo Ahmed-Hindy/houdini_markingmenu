@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+.venv/
 
 # C extensions
 *.so
@@ -28,6 +29,8 @@ pip-delete-this-directory.txt
 .tox/
 .coverage
 .cache
+.pytest_cache/
+.ruff_cache/
 nosetests.xml
 coverage.xml
 

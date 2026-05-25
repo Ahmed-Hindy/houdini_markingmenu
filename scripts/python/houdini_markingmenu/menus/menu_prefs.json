@@ -14,11 +14,6 @@
         "Default": "DOP_baseCollection.json",
         "Shift": "DOP_baseCollection.json"
     },
-    "MAT": {
-        "Control": "MAT_baseCollection.json",
-        "Default": "MAT_baseCollection.json",
-        "Shift": "MAT_baseCollection.json"
-    },
     "OBJ": {
         "Control": "OBJ_baseCollection.json",
         "Default": "OBJ_baseCollection.json",

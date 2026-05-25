@@ -1,6 +1,6 @@
 import hou
 
-from PySide2 import QtWidgets
+from houdini_markingmenu.qt import QtWidgets
 
 from .subwidgets import referencebuttons
 

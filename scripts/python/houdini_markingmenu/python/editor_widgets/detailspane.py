@@ -4,7 +4,7 @@ import json
 
 import hou
 
-from PySide2 import QtWidgets, QtGui, QtCore
+from houdini_markingmenu.qt import QtWidgets, QtGui, QtCore
 
 
 class DetailsPane(QtWidgets.QWidget):
